@@ -5,8 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add database context and cache
 if(builder.Environment.IsDevelopment())
 {
+    /* First try with GitHub, AI here and "Cloud" with it ... 
+    and with Azure too, so just one sql at the moment
+    After possible to local SSMS, maybe change here again */
     builder.Services.AddDbContext<MyDatabaseContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConnection")));
+        //options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConnection")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
+
     builder.Services.AddDistributedMemoryCache();
 }
 else

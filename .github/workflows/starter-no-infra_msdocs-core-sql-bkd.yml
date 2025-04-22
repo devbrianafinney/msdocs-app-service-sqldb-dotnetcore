@@ -26,8 +26,28 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+      - name: Install dotnet-ef
+        run: dotnet tool install --global dotnet-ef
+
+      - name: Add dotnet tools to PATH
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+
+
+        #/The migration bundle is a self-contained executable 
+        # that you can run in the production environment without 
+        # needing the .NET SDK. The App Service linux 
+        # container only has the .NET runtime and not the 
+        # .NET SDK
+        #- name: Create migrations bundle
+        #run: dotnet ef migrations bundle -o ${{env.DOTNET_ROOT}}/myapp/migrations
+      - name: Create migrations bundle 
+        run: dotnet ef migrations bundle --runtime linux-x64 -o ${{env.DOTNET_ROOT}}/myapp/migrationsbundle
+       
+
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
