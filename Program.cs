@@ -9,9 +9,9 @@ if(builder.Environment.IsDevelopment())
     and with Azure too, so just one sql at the moment
     After possible to local SSMS, maybe change here again */
     builder.Services.AddDbContext<MyDatabaseContext>(options =>
-        //options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConnection")));
-        options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
-
+       options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
+ //options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConnection")));
+        
     builder.Services.AddDistributedMemoryCache();
 }
 else
