@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DotNetCoreSqlDb.Data;
+// Ensure the required namespace is included at the top of the file
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Microsoft.Extensions.Logging.AzureAppServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add database context and cache
@@ -18,10 +22,20 @@ else
 {
     builder.Services.AddDbContext<MyDatabaseContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
+
+    // Fix the error by ensuring the correct package is installed and the namespace is used
     builder.Services.AddStackExchangeRedisCache(options =>
     {
-    options.Configuration = builder.Configuration["AZURE_REDIS_CONNECTIONSTRING"];
-    options.InstanceName = "msdocs-core-sql-bkd";
+        options.Configuration = builder.Configuration["AZURE_REDIS_CONNECTIONSTRING"];
+        options.InstanceName = "msdocs-core-sql-bkd";
+    });
+
+
+    // Fix the error by ensuring the correct package is installed and the namespace is used
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = builder.Configuration["AZURE_REDIS_CONNECTIONSTRING"];
+        options.InstanceName = "msdocs-core-sql-bkd";
     });
 }
 
@@ -30,7 +44,8 @@ else
 builder.Services.AddControllersWithViews();
 
 // Add App Service logging
-builder.Logging.AddAzureWebAppDiagnostics();
+builder.Logging.AddAzureWebAppDiagnostics(); 
+builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
 
