@@ -214,7 +214,8 @@ resource privateDnsZoneCache 'Microsoft.Network/privateDnsZones@2020-06-01' = {
 }
 
 // The Key Vault is used to manage SQL database and redis secrets.
-// Current user has the admin permissions to configure key vault secrets, but by default doesn't have the permissions to read them.
+// Current user has the admin permissions to configure key vault secrets, 
+//  but by default doesn't have the permissions to read them.
 resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
   name: '${take(replace(appName, '-', ''), 17)}-vault'
   location: location
@@ -223,16 +224,18 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
     tenantId: subscription().tenantId
     sku: { family: 'A', name: 'standard' }
     // Only allow requests from the private endpoint in the VNET.
-    publicNetworkAccess: 'Disabled' // To see the secret in the portal, change to 'Enabled' 
+    publicNetworkAccess: 'Enabled' // To see the secret in the portal, change to 'Enabled' / 'Disabled'
     networkAcls: {
-      defaultAction: 'Deny' // To see the secret in the portal, change to 'Allow' 
+      defaultAction: 'Allow' // To see the secret in the portal, change to 'Allow' / 'Deny'
       bypass: 'None' 
     }
   }
 }
 
-// Grant the current user with key vault secret user role permissions over the key vault. This lets you inspect the secrets, such as in the portal
-// If you remove this section, you can't read the key vault secrets, but the app still has access with its managed identity.
+// Grant the current user with key vault secret user role permissions over the key vault. 
+// This lets you inspect the secrets, such as in the portal
+// If you remove this section, you can't read the key vault secrets, but the app still has 
+// access with its managed identity.
 resource keyVaultSecretUserRoleRoleDefinition 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' existing = {
   scope: subscription()
   name: '4633458b-17de-408a-b874-0445c86b69e6' // The built-in Key Vault Secret User role
