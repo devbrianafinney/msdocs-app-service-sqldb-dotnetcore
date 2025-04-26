@@ -3,6 +3,10 @@
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:MyDatabaseContext"
+    },
+    "appInsights1": {
+      "type": "appInsights",
+      "dynamicId": null
     }
   }
 }
