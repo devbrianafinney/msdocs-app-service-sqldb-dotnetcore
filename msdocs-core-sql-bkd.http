@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 @msdocs_core_sql_bkd_HostAddress = http://localhost:5136
 
 GET {{msdocs_core_sql_bkd_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+=======
+@msdocs_core_sql_bkd_HostAddress = http://localhost:5136
+
+GET {{msdocs_core_sql_bkd_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+>>>>>>> 96f5d5e8583ebf1c1160c6f5bdcd8071c2856e97
